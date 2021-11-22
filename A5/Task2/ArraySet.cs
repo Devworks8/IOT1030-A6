@@ -1,68 +1,136 @@
-﻿namespace A5.Task2
+﻿using System;
+using System.Collections;
+
+namespace A5.Task2
 {
 	public class ArraySet<T> : ISet<T>
 	{
+		private T[] data;
+		private int numItems;
+
 		public bool add(T value)
 		{
-			// TODO Auto-generated method stub
-			return false;
+			if (contains(value)) { return false; }
+			if (numItems == data.Length) { ensureCapacity(numItems * 2); }
+			data[numItems++] = value;
+			return true;
 		}
 
 		public void addMany(params T[] args )
 		{
-			// TODO Auto-generated method stub
+			foreach (T i in args) { add(i); }
 		}
 
 		public void addAll(ISet<T> otherSet)
 		{
-			// TODO Auto-generated method stub
+			foreach (T i in otherSet) { add(i); }
 		}
 
 		public bool remove(T value)
 		{
-			// TODO Auto-generated method stub
-			return false;
+			int idx = 0;
+			for (; idx < numItems && !(data[idx].Equals(value)); ++idx) ;
+
+			if (idx == numItems) { return false; }
+			--numItems;
+
+			if (numItems > 0) { data[idx] = data[numItems]; }
+			return true;
 		}
 
 		public bool contains(T target)
 		{
-			// TODO Auto-generated method stub
+			for (int i = 0; i < numItems; ++i)
+			{
+				if (data[i].Equals(target)) { return true; }
+			}
 			return false;
 		}
 
 		public T get(int index)
 		{
-			// TODO Auto-generated method stub
-			return default(T);
+			if (index < numItems && index >= 0) { return data[index]; }
+			throw new IndexOutOfRangeException();
 		}
 
 		public int size()
 		{
-			// TODO Auto-generated method stub
-			return 0;
+			return numItems;
 		}
 
 		public bool isEmpty()
 		{
-			// TODO Auto-generated method stub
-			return false;
+			return numItems == 0;
 		}
 
 		public void clear()
 		{
-			// TODO Auto-generated method stub
+			numItems = 0;
 		}
 
 		public override string ToString()
 		{
-			// TODO Auto-generated method stub
-			return "";
+			String str = "ArraySet[";
+			for (int i = 0; i < numItems; ++i)
+			{
+				str += data[i];
+				if (i != numItems - 1)
+				{
+					str += ", ";
+				}
+			}
+			return str += "]";
 		}
 
 		public bool equals(object other)
 		{
-			// TODO Auto-generated method stub
-			return false;
+			if (this == other)
+			{
+				return true;
+			}
+			if (other == null)
+			{
+				return false;
+			}
+			if (other.GetType() != typeof(ISet<T>))
+			{
+				return false;
+			}
+			ISet<T> set = (ISet<T>)other;
+			if (set.size() != size())
+			{
+				return false;
+			}
+			if (isEmpty())
+			{
+				return true;
+			}
+			for (int i = 0; i < numItems; ++i)
+			{
+				if (!set.contains(data[i]))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public IEnumerator GetEnumerator()
+		{
+			for (int i = 0; i < numItems; ++i)
+			{
+				yield return data[i];
+			}
+		}
+
+		private void ensureCapacity(int newSize)
+		{
+			var newData = new T[newSize];
+			for (int i = 0; i < data.Length; ++i)
+			{
+				newData[i] = data[i];
+			}
+			data = newData;
+
 		}
 	}
-}

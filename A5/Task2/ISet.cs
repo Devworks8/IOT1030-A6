@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace A5.Task2
 {
@@ -6,7 +6,7 @@ namespace A5.Task2
 	 * The Set interface is meant for a simple collection of unordered elements. 
 	 * A set does not allow for duplicates. 
 	 */
-	public interface ISet<T>
+	public interface ISet<T> : IEnumerable
 	{
 		/// <summary>
 		/// Adds a single element into the set
