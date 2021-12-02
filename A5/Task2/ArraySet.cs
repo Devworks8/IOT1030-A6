@@ -8,6 +8,11 @@ namespace A5.Task2
 		private T[] data;
 		private int numItems;
 
+		public ArraySet()
+        {
+			data = new T[20];
+        }
+
 		public bool add(T value)
 		{
 			if (contains(value)) { return false; }
@@ -16,7 +21,7 @@ namespace A5.Task2
 			return true;
 		}
 
-		public void addMany(params T[] args )
+		public void addMany(params T[] args)
 		{
 			foreach (T i in args) { add(i); }
 		}
@@ -82,36 +87,19 @@ namespace A5.Task2
 			return str += "]";
 		}
 
-		public bool equals(object other)
+		public override bool Equals(object other)
 		{
-			if (this == other)
-			{
-				return true;
-			}
-			if (other == null)
-			{
-				return false;
-			}
-			if (other.GetType() != typeof(ISet<T>))
-			{
-				return false;
-			}
-			ISet<T> set = (ISet<T>)other;
-			if (set.size() != size())
-			{
-				return false;
-			}
-			if (isEmpty())
-			{
-				return true;
-			}
-			for (int i = 0; i < numItems; ++i)
-			{
-				if (!set.contains(data[i]))
-				{
-					return false;
-				}
-			}
+			if ((other == null) || !this.GetType().Equals(other.GetType())) { return false; }
+            else
+            {
+				ISet<T> set = (ISet<T>)other;
+				if (set.size() != size()) { return false; }
+				if (isEmpty()) { return true; }
+				for (int i = 0; i < numItems; ++i)
+                {
+					if (!set.contains(data[i])) { return false; }
+                }
+            }
 			return true;
 		}
 
@@ -134,3 +122,4 @@ namespace A5.Task2
 
 		}
 	}
+}

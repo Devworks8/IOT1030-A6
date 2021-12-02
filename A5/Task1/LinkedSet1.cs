@@ -4,7 +4,7 @@ using System.Text;
 
 namespace A5.Task1
 {
-	public class LinkedSet1 : ISet<int>
+	public class LinkedSet1 : ISet
 	{
 		private DoublyLinkedList data = new DoublyLinkedList();
 
@@ -25,7 +25,7 @@ namespace A5.Task1
 			foreach(var arg in args) { this.add(arg); }
 		}
 
-		public void addAll(ISet<int> otherSet)
+		public void addAll(ISet otherSet)
 		{
 			foreach (int node in otherSet) { this.add(node); }
 		}
@@ -82,7 +82,7 @@ namespace A5.Task1
 
 		public override bool Equals(Object other)
 		{
-			ISet<int> set = (ISet<int>)other;
+			ISet set = (ISet)other;
 
 			if (data == other) { return true; }
 			if (other == null)  { return false; }

@@ -3,19 +3,19 @@ using System.Collections;
 
 namespace A5.Task1
 {
-	public class ArraySet<T> : ISet<T>
+	public class ArraySet : ISet
 	{
-		private T[] data;
+		private int[] data;
 		private int numItems;
 
 		public ArraySet() : this(20) { }
 
 		public ArraySet(int size)
 		{
-			data = new T[size];
+			data = new int[size];
 		}
 
-        public bool add(T value)
+        public bool add(int value)
 		{
             if (contains(value))
 			{
@@ -29,23 +29,23 @@ namespace A5.Task1
             return true;
 		}
 
-        public void addMany(params T[] args)
+        public void addMany(params int[] args)
 		{
-            foreach (T i in args)
+            foreach (int i in args)
 			{
 				add(i);
 			}
 		}
 
-		public void addAll(ISet<T> otherSet)
+		public void addAll(ISet otherSet)
 		{
-			foreach (T i in otherSet)
+			foreach (int i in otherSet)
 			{
 				add(i);
 			}
 		}
 
-		public bool remove(T value)
+		public bool remove(int value)
 		{
 			int idx = 0;
 			for (; idx < numItems && !(data[idx].Equals(value)); ++idx) ;
@@ -62,7 +62,7 @@ namespace A5.Task1
 			return true;
 		}
 
-        public bool contains(T target)
+        public bool contains(int target)
 		{
             for (int i = 0; i < numItems; ++i)
 			{
@@ -74,7 +74,7 @@ namespace A5.Task1
             return false;
 		}
 
-		public T get(int index)
+		public int get(int index)
 		{
 			if (index < numItems && index >= 0)
 			{
@@ -99,7 +99,7 @@ namespace A5.Task1
 			{
 				return;
 			}
-			var newData = new T[numItems];
+			var newData = new int[numItems];
 			Array.Copy(data, 0, newData, 0, numItems);
 			data = newData;
 		}
@@ -128,7 +128,7 @@ namespace A5.Task1
 			return str += "]";
 		}
 
-		public bool equals(Object other)
+		public override bool Equals(Object other)
 		{
 			if (this == other)
 			{
@@ -138,11 +138,11 @@ namespace A5.Task1
 			{
 				return false;
 			}
-			if (other.GetType() != typeof(ISet<T>))
+			if (other.GetType() != typeof(ISet))
 			{
 				return false;
 			}
-			ISet<T> set = (ISet<T>)other;
+			ISet set = (ISet)other;
 			if (set.size() != size())
 			{
 				return false;
@@ -171,7 +171,7 @@ namespace A5.Task1
 
 		private void ensureCapacity(int newSize)
 		{
-			var newData = new T[newSize];
+			var newData = new int[newSize];
 			for (int i = 0; i < data.Length; ++i)
 			{
 				newData[i] = data[i];
